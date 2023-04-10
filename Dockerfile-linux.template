@@ -5,6 +5,9 @@
 	def is_ubuntu:
 		env.variant | startswith("ubuntu")
 	;
+	def compileOpenssl:
+	    (env.variant == "ubuntu-xenial") and (env.version | startswith("3.1"))
+	;
 	def is_slim:
 		env.variant | startswith("slim-")
 	;
@@ -28,6 +31,30 @@ ENV PATH /usr/local/bin:$PATH
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
 
+{{ if compileOpenssl then ( -}}
+# openssl 1.1.1 for ubuntu 16.04 with Python 3.10+
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends debhelper; \
+    cd /root; \
+    wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/openssl_1.1.1.orig.tar.gz; \
+    wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/openssl_1.1.1-1ubuntu2.1~18.04.21.debian.tar.xz; \
+    tar -xf openssl_1.1.1.orig.tar.gz; \
+    cd /root/openssl-1.1.1; \
+    tar -xf ../openssl_1.1.1-1ubuntu2.1~18.04.21.debian.tar.xz; \
+    sed -i 's/hardening=+all/hardening=+all,-pie/g' debian/rules; \
+    echo 10 > debian/compat; \
+    dpkg-buildpackage -us -uc -d -j; \
+    cd /root; \
+    dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.21_amd64.deb; \
+    dpkg -i libssl-dev_1.1.1-1ubuntu2.1~18.04.21_amd64.deb; \
+    dpkg -i openssl_1.1.1-1ubuntu2.1~18.04.21_amd64.deb; \
+    rm -rf lib* openssl*; \
+    apt-get -y purge debhelper; \
+    apt-get -y autoremove; \
+	rm -rf /var/lib/apt/lists/*;
+
+{{ ) else "" end -}}
 # runtime dependencies
 {{ if is_alpine then ( -}}
 RUN set -eux; \
@@ -48,6 +75,9 @@ RUN set -eux; \
 		tk-dev \
 		uuid-dev \
 {{ ) end -}}
+{{ if is_ubuntu then ( -}}
+        gnupg-curl \
+{{ ) else "" end -}}
 	; \
 	rm -rf /var/lib/apt/lists/*
 {{ ) end -}}
@@ -142,6 +172,9 @@ RUN set -eux; \
 		zlib1g-dev \
 	; \
 	\
+{{ ) else "" end -}}
+{{ if is_ubuntu then ( -}}
+    \
 {{ ) else "" end -}}
 	wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz"; \
 	wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc"; \
