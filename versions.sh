@@ -167,6 +167,12 @@ for version in "${versions[@]}"; do
 				version: env.setuptoolsVersion,
 			},
 			variants: [
+			  (
+					"xenial",
+					"bionic",
+					"focal",
+					"jammy"
+				| "ubuntu-" + .),
 				(
 					"bullseye",
 					"buster"

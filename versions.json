@@ -9,6 +9,10 @@
       "version": "65.5.1"
     },
     "variants": [
+      "ubuntu-xenial",
+      "ubuntu-bionic",
+      "ubuntu-focal",
+      "ubuntu-jammy",
       "bullseye",
       "slim-bullseye",
       "buster",
@@ -30,6 +34,10 @@
       "version": "65.5.1"
     },
     "variants": [
+      "ubuntu-xenial",
+      "ubuntu-bionic",
+      "ubuntu-focal",
+      "ubuntu-jammy",
       "bullseye",
       "slim-bullseye",
       "buster",
@@ -51,6 +59,10 @@
       "version": "65.5.1"
     },
     "variants": [
+      "ubuntu-xenial",
+      "ubuntu-bionic",
+      "ubuntu-focal",
+      "ubuntu-jammy",
       "bullseye",
       "slim-bullseye",
       "buster",
@@ -72,6 +84,10 @@
       "version": "57.5.0"
     },
     "variants": [
+      "ubuntu-xenial",
+      "ubuntu-bionic",
+      "ubuntu-focal",
+      "ubuntu-jammy",
       "bullseye",
       "slim-bullseye",
       "buster",
@@ -91,6 +107,10 @@
       "version": "57.5.0"
     },
     "variants": [
+      "ubuntu-xenial",
+      "ubuntu-bionic",
+      "ubuntu-focal",
+      "ubuntu-jammy",
       "bullseye",
       "slim-bullseye",
       "buster",
@@ -110,6 +130,10 @@
       "version": "58.1.0"
     },
     "variants": [
+      "ubuntu-xenial",
+      "ubuntu-bionic",
+      "ubuntu-focal",
+      "ubuntu-jammy",
       "bullseye",
       "slim-bullseye",
       "buster",
