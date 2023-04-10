@@ -13,5 +13,5 @@ for version; do
 	export version
 	variant=ubuntu-xenial
 	echo build tcimba/python:$version-$variant from $version/$variant
-	docker buiuld -t tcimba/python:$version-$variant $version/$variant
+	docker build -t tcimba/python:$version-$variant $version/$variant
 done
